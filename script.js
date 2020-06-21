@@ -9,7 +9,7 @@ $(document).ready(function () {
   //Implement a function to display the current day, date, and time that updates every second
   var now = $("#currentDay");
   setInterval(function () {
-    now.text(moment().format("LL h:mm:ss"));
+    now.text(moment().format("LL H:mm:ss"));
   }, 1000);//end setInterval
 
   // create a function to read and retrieve tasks from local storage when the page first loads
@@ -33,6 +33,12 @@ function displayResults(){
   for (var i = 0; i < storedTasks.length; i++) {
     var storedTask = storedTasks[i];
     $("textarea")[i].value = storedTask.task;
+    var hour = i + 9;
+    var hourStart = moment().set({"hour":hour,"minute":0,"second":0,"millisecond": 0});
+    if (hourStart.isAfter(moment())) {
+    $("textarea")[i].style.backgroundColor = "red";
+}
+
   }
 }//end displayResults() fct def
 
@@ -43,15 +49,16 @@ function displayResults(){
   $(".saveBtn").on("click", function (event) {
     event.preventDefault();
 
+    var btnIndex = event.target.id
     console.log("SAVED 2 9am!");
     //read value of text input
-    var userInput = $("#textarea-a").val();
+    var userInput = $("textarea")[btnIndex].value;
     console.log("New Submission: \n", userInput);
 
     //save input to local storage
     var storedTasks = readLocalStorage();
     var newTask = {"task": userInput};
-    storedTasks[0] = newTask;
+    storedTasks[btnIndex] = newTask;
     
     localStorage.setItem("StoredTasks", JSON.stringify(storedTasks));
     displayResults();
@@ -59,3 +66,4 @@ function displayResults(){
  
 }); //end ready fct declaration
 
+ 
