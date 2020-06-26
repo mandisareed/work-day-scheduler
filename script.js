@@ -1,16 +1,12 @@
 $(document).ready(function () {
-  var textArea = $("#textarea-a");
-  var textAreaOutput = $("text-output");
-
-  var todos = [];
 
   //Implement a function to display the current day, date, and time that updates every second
   var now = $("#currentDay");
   setInterval(function () {
-    now.text(moment().format("LL H:mm:ss"));
-  }, 1000); //end setInterval
+    now.text(moment().format("LLLL"));
+  }, 1000); 
 
-  // create a function to read and retrieve tasks from local storage when the page first loads
+  // create a function to read and retrieve tasks for each time block from local storage when the page first loads
   function readLocalStorage() {
     var storedTasksString = localStorage.getItem("StoredTasks");
     var storedTasks = [
@@ -37,7 +33,8 @@ $(document).ready(function () {
     ///create a for loop to loop through the array of stored user inputs for each time block
     for (var i = 0; i < storedTasks.length; i++) {
       var storedTask = storedTasks[i];
-      $("textarea")[i].value = storedTask.task;
+      $("textarea").eq(i).val(storedTask.task);
+      //$("textarea")[i].value = storedTask.task;
       var hour = i + 9;
       var hourStart = moment().set({
         hour: hour,
@@ -46,12 +43,12 @@ $(document).ready(function () {
         millisecond: 0,
       });
       if (hour == moment().hour()) {
-        $("textarea")[i].style.backgroundColor = "green";
+        $("textarea").eq( i ).css({"background-color": "green", "opacity": "0.5"});
       }
       else if (hourStart.isAfter(moment())) {
-        $("textarea")[i].style.backgroundColor = "red";
+        $("textarea").eq( i ).css({"background-color": "red", "opacity": "0.5"});
       } else  {
-        $("textarea")[i].style.backgroundColor = "grey";
+        $("textarea").eq( i ).css({"background-color": "grey", "opacity": "0.5"});
       }
     }
   } //end displayResults() fct def
@@ -64,10 +61,10 @@ $(document).ready(function () {
     event.preventDefault();
 
     var btnIndex = event.target.id;
-    console.log("SAVED 2 9am!");
+    //console.log("SAVED 2 9am!");
     //read value of text input
-    var userInput = $("textarea")[btnIndex].value;
-    console.log("New Submission: \n", userInput);
+    var userInput = $("textarea").eq(btnIndex).val();
+    //console.log("New Submission: \n", userInput);
 
     //save input to local storage
     var storedTasks = readLocalStorage();
