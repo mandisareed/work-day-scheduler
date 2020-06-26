@@ -61,10 +61,8 @@ $(document).ready(function () {
     event.preventDefault();
 
     var btnIndex = event.target.id;
-    //console.log("SAVED 2 9am!");
     //read value of text input
     var userInput = $("textarea").eq(btnIndex).val();
-    //console.log("New Submission: \n", userInput);
 
     //save input to local storage
     var storedTasks = readLocalStorage();
@@ -74,4 +72,9 @@ $(document).ready(function () {
     localStorage.setItem("StoredTasks", JSON.stringify(storedTasks));
     displayResults();
   });
+
+  //i want to clear the storage at the end of each day (11:59:59)
+  //WHEN time is 11:59:59, use localStorage.clear("StoredTasks", storedTasks)
+
+  
 }); //end ready fct declaration
