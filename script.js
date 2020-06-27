@@ -75,6 +75,11 @@ $(document).ready(function () {
 
   //i want to clear the storage at the end of each day (11:59:59)
   //WHEN time is 11:59:59, use localStorage.clear("StoredTasks", storedTasks)
+  //if (current time is equal to 11:59:59, clear)
+  var end = new Date();
+  end.setHours(23,59,59,999); 
+  if (moment().endOf("day") = end.setHours) {
+    localStorage.clear();
+  };
 
-  
 }); //end ready fct declaration
